@@ -1,0 +1,63 @@
+def checking_for_correctness(date_list):#проверка на коректность
+	print(date_list[1])
+	schet = 0
+	for arr, dep in  date_list :
+		arrival = date_list[schet][0]
+		departure = date_list[schet][1]
+		schet+=1
+		print('дата прибытия',arrival,'дата отезда',departure)
+		if not type(arrival) == int or not type(departure) == int:
+			return('Ошибка значение не является числом')
+		if arrival>departure:
+			return('Ошибка в датах')
+		if not schet==len(date_list):
+			if departure>date_list[schet][0]:
+				return('Ошибка вы приехали раньше чем уехали в прошлый раз')
+	return date_list
+def the_list_is_counted(date_list):#просто сумма всех переменных
+	date_list_summ = []
+	for element in date_list:
+		date_list_summ.append(element[1]-element[0]+1)
+	return date_list_summ
+def summ_day(date_list):#Сумма одной поездки
+	date_list = date_list[1]-date_list[0]+1
+	return date_list
+def schengen_counter(date_list):#Движок подсчета
+	for element in date_list:
+		shengen_sum = 0
+		shengen_sum +=summ_day(element)
+		for element_old in date_list:
+			if element_old[1]<element[0] and element_old[1]>element[1]-LIMITED_180:
+				shengen_sum+=summ_day(element_old)
+		print(shengen_sum)
+		shengen_sum_list.append(shengen_sum)
+def checking_for_limits(summ_list): #проверка на лимиты
+	check = 0
+	for element in summ_list:
+		if element>LIMITED_90:
+			print('Превышение лимита. Время прибытия ',element,'Поездка',days_of_stay_in_schengen[check])
+		check+=1
+
+print('Добро пожаловать')
+print('В Шенгенский калькулятор')
+
+LIMITED_90 = 90
+LIMITED_180 = 180
+shengen_sum_list = []
+days_of_stay_in_schengen = [[9,10],[15,24],[83,94],[108,135],[136,198],[250,260]]
+
+e=0
+while e==0:
+	print('У вас было совершено всего',len(days_of_stay_in_schengen),'Поездок')
+	print('e - подробней')
+	print('s - выход')
+	input_user = input()
+	if input_user=='s':
+		e=1
+	elif input_user=='e':
+		
+		print(checking_for_correctness(days_of_stay_in_schengen))#проверка на коректность
+		print(the_list_is_counted(days_of_stay_in_schengen))#просто сумма всех переменных
+	#print(summ_day([10,15]))
+		schengen_counter(days_of_stay_in_schengen)#Движок подсчета
+		checking_for_limits(shengen_sum_list)
